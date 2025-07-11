@@ -93,6 +93,7 @@ class FileOpener {
                 </div>
                 <div class="file-actions">
                     <button class="btn btn-sm view-btn" onclick="fileOpener.viewFile(${index})">檢視</button>
+                    <button class="btn btn-sm open-btn" onclick="fileOpener.openInSystemApp(${index})">系統開啟</button>
                     <button class="btn btn-sm remove-btn" onclick="fileOpener.removeFile(${index})">移除</button>
                 </div>
             `;
@@ -171,6 +172,61 @@ class FileOpener {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
+    }
+    
+    openInSystemApp(index) {
+        const fileInfo = this.files[index];
+        
+        // 創建一個臨時 URL 來下載檔案
+        const blob = fileInfo.file;
+        const url = URL.createObjectURL(blob);
+        
+        // 創建一個臨時下載連結
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileInfo.name;
+        a.style.display = 'none';
+        
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        
+        // 清理 URL
+        setTimeout(() => {
+            URL.revokeObjectURL(url);
+        }, 100);
+        
+        // 顯示提示訊息
+        this.showNotification(`檔案 "${fileInfo.name}" 已下載，請在下載資料夾中找到並開啟。`);
+    }
+    
+    showNotification(message) {
+        // 創建通知元素
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.textContent = message;
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            max-width: 300px;
+            word-wrap: break-word;
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // 3秒後自動移除
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 3000);
     }
 }
 
