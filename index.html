@@ -48,6 +48,8 @@
             font-weight: 500;
             transition: all 0.3s ease;
             margin: 10px 0;
+            cursor: pointer;
+            border: none;
         }
 
         .file-link:hover {
@@ -72,6 +74,40 @@
             margin-top: 20px;
             line-height: 1.5;
         }
+
+        .methods {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .method {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            border-left: 4px solid #667eea;
+        }
+
+        .method-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .method-link {
+            color: #667eea;
+            text-decoration: none;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            word-break: break-all;
+        }
+
+        .method-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -82,13 +118,43 @@
             C:\Users\solidityDeveloper\Documents\2.docx
         </div>
         
-        <a href="file:///C:/Users/solidityDeveloper/Documents/2.docx" class="file-link" onclick="openLocalFile()">
+        <button class="file-link" onclick="openLocalFile()">
             開啟 Word 檔案
-        </a>
+        </button>
         
         <div class="instruction">
-            點擊上方按鈕開啟本機 Word 檔案<br>
-            如果無法開啟，請確認檔案路徑是否正確
+            點擊上方按鈕嘗試開啟本機 Word 檔案<br>
+            如果無法開啟，請嘗試下方的替代方法
+        </div>
+
+        <div class="methods">
+            <div class="method">
+                <div class="method-title">方法 1: Windows 運行</div>
+                <a href="ms-word:ofe|u|C:\Users\solidityDeveloper\Documents\2.docx" class="method-link">
+                    ms-word:ofe|u|C:\Users\solidityDeveloper\Documents\2.docx
+                </a>
+            </div>
+
+            <div class="method">
+                <div class="method-title">方法 2: 直接路徑</div>
+                <a href="C:\Users\solidityDeveloper\Documents\2.docx" class="method-link">
+                    C:\Users\solidityDeveloper\Documents\2.docx
+                </a>
+            </div>
+
+            <div class="method">
+                <div class="method-title">方法 3: Shell 執行</div>
+                <a href="shell:C:\Users\solidityDeveloper\Documents\2.docx" class="method-link">
+                    shell:C:\Users\solidityDeveloper\Documents\2.docx
+                </a>
+            </div>
+
+            <div class="method">
+                <div class="method-title">方法 4: 檔案協議</div>
+                <a href="file:///C:/Users/solidityDeveloper/Documents/2.docx" class="method-link">
+                    file:///C:/Users/solidityDeveloper/Documents/2.docx
+                </a>
+            </div>
         </div>
     </div>
 
@@ -96,31 +162,56 @@
         function openLocalFile() {
             const filePath = 'C:\\Users\\solidityDeveloper\\Documents\\2.docx';
             
-            // 嘗試多種方法開啟檔案
-            try {
-                // 方法 1: 使用 file:// 協議
-                window.open('file:///C:/Users/solidityDeveloper/Documents/2.docx', '_blank');
-            } catch (error) {
-                console.log('File protocol method failed:', error);
-                
-                try {
-                    // 方法 2: 創建下載連結
-                    const link = document.createElement('a');
-                    link.href = 'file:///C:/Users/solidityDeveloper/Documents/2.docx';
-                    link.click();
-                } catch (error2) {
-                    console.log('Download link method failed:', error2);
-                    
-                    // 方法 3: 顯示提示訊息
-                    alert('請手動開啟檔案：C:\\Users\\solidityDeveloper\\Documents\\2.docx');
+            // 嘗試多種協議開啟檔案
+            const protocols = [
+                'ms-word:ofe|u|C:\\Users\\solidityDeveloper\\Documents\\2.docx',
+                'C:\\Users\\solidityDeveloper\\Documents\\2.docx',
+                'shell:C:\\Users\\solidityDeveloper\\Documents\\2.docx',
+                'file:///C:/Users/solidityDeveloper/Documents/2.docx'
+            ];
+
+            let success = false;
+            
+            protocols.forEach((protocol, index) => {
+                setTimeout(() => {
+                    try {
+                        if (index === 0) {
+                            // Microsoft Word 專用協議
+                            window.location.href = protocol;
+                        } else if (index === 1) {
+                            // 直接路徑
+                            window.open(protocol, '_self');
+                        } else if (index === 2) {
+                            // Shell 執行
+                            window.location.href = protocol;
+                        } else {
+                            // 檔案協議
+                            window.open(protocol, '_blank');
+                        }
+                        success = true;
+                    } catch (error) {
+                        console.log(`Method ${index + 1} failed:`, error);
+                    }
+                }, index * 500);
+            });
+
+            // 如果所有方法都失敗，顯示手動指引
+            setTimeout(() => {
+                if (!success) {
+                    alert('自動開啟失敗。請手動執行以下步驟：\n\n1. 按 Win + R\n2. 輸入: C:\\Users\\solidityDeveloper\\Documents\\2.docx\n3. 按 Enter');
                 }
-            }
+            }, 3000);
         }
 
-        // 阻止默認的連結行為，使用自定義函數
-        document.querySelector('.file-link').addEventListener('click', function(e) {
-            e.preventDefault();
-            openLocalFile();
+        // 為所有方法連結添加點擊事件
+        document.addEventListener('DOMContentLoaded', function() {
+            const methodLinks = document.querySelectorAll('.method-link');
+            methodLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // 讓瀏覽器嘗試處理這些協議
+                    console.log('Trying protocol:', this.href);
+                });
+            });
         });
     </script>
 </body>
