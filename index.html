@@ -27,7 +27,7 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             padding: 40px;
             text-align: center;
-            min-width: 400px;
+            min-width: 500px;
         }
 
         h1 {
@@ -85,7 +85,7 @@
 
         .method {
             margin-bottom: 15px;
-            padding: 10px;
+            padding: 15px;
             background: white;
             border-radius: 6px;
             border-left: 4px solid #667eea;
@@ -94,19 +94,50 @@
         .method-title {
             font-weight: 600;
             color: #333;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
 
         .method-link {
             color: #667eea;
             text-decoration: none;
             font-family: 'Courier New', monospace;
-            font-size: 14px;
+            font-size: 13px;
             word-break: break-all;
+            display: block;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            cursor: pointer;
         }
 
         .method-link:hover {
-            text-decoration: underline;
+            background: #e9ecef;
+        }
+
+        .copy-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .copy-btn:hover {
+            background: #218838;
+        }
+
+        .powershell-section {
+            background: #1e1e1e;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            text-align: left;
         }
     </style>
 </head>
@@ -118,101 +149,132 @@
             C:\Users\solidityDeveloper\Documents\2.docx
         </div>
         
-        <button class="file-link" onclick="openLocalFile()">
-            開啟 Word 檔案
+        <button class="file-link" onclick="openWithPowerShell()">
+            使用 PowerShell 開啟 Word 檔案
         </button>
         
         <div class="instruction">
-            點擊上方按鈕嘗試開啟本機 Word 檔案<br>
-            如果無法開啟，請嘗試下方的替代方法
+            點擊上方按鈕將嘗試使用 PowerShell 開啟檔案<br>
+            或手動執行下方的 PowerShell 指令
         </div>
 
         <div class="methods">
             <div class="method">
-                <div class="method-title">方法 1: Windows 運行</div>
-                <a href="ms-word:ofe|u|C:\Users\solidityDeveloper\Documents\2.docx" class="method-link">
-                    ms-word:ofe|u|C:\Users\solidityDeveloper\Documents\2.docx
+                <div class="method-title">方法 1: PowerShell 開啟檔案</div>
+                <div class="powershell-section">
+                    Start-Process "C:\Users\solidityDeveloper\Documents\2.docx"
+                </div>
+                <a href="ms-powershell:Start-Process%20%22C:\Users\solidityDeveloper\Documents\2.docx%22" class="method-link">
+                    點擊執行 PowerShell 指令
                 </a>
+                <button class="copy-btn" onclick="copyToClipboard('Start-Process \"C:\\Users\\solidityDeveloper\\Documents\\2.docx\"')">複製指令</button>
             </div>
 
             <div class="method">
-                <div class="method-title">方法 2: 直接路徑</div>
-                <a href="C:\Users\solidityDeveloper\Documents\2.docx" class="method-link">
-                    C:\Users\solidityDeveloper\Documents\2.docx
+                <div class="method-title">方法 2: PowerShell 使用 Invoke-Item</div>
+                <div class="powershell-section">
+                    Invoke-Item "C:\Users\solidityDeveloper\Documents\2.docx"
+                </div>
+                <a href="ms-powershell:Invoke-Item%20%22C:\Users\solidityDeveloper\Documents\2.docx%22" class="method-link">
+                    點擊執行 PowerShell 指令
                 </a>
+                <button class="copy-btn" onclick="copyToClipboard('Invoke-Item \"C:\\Users\\solidityDeveloper\\Documents\\2.docx\"')">複製指令</button>
             </div>
 
             <div class="method">
-                <div class="method-title">方法 3: Shell 執行</div>
-                <a href="shell:C:\Users\solidityDeveloper\Documents\2.docx" class="method-link">
-                    shell:C:\Users\solidityDeveloper\Documents\2.docx
-                </a>
+                <div class="method-title">方法 3: 直接執行 PowerShell</div>
+                <div class="powershell-section">
+                    powershell.exe -Command "& {Start-Process 'C:\Users\solidityDeveloper\Documents\2.docx'}"
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard('powershell.exe -Command \"& {Start-Process \'C:\\Users\\solidityDeveloper\\Documents\\2.docx\'}\"')">複製指令</button>
             </div>
 
             <div class="method">
-                <div class="method-title">方法 4: 檔案協議</div>
-                <a href="file:///C:/Users/solidityDeveloper/Documents/2.docx" class="method-link">
-                    file:///C:/Users/solidityDeveloper/Documents/2.docx
+                <div class="method-title">方法 4: 開啟 PowerShell 終端</div>
+                <a href="ms-powershell:" class="method-link">
+                    點擊開啟 PowerShell 終端
                 </a>
+                <div style="margin-top: 10px; font-size: 12px; color: #666;">
+                    然後手動輸入上述任一指令
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        function openLocalFile() {
-            const filePath = 'C:\\Users\\solidityDeveloper\\Documents\\2.docx';
-            
-            // 嘗試多種協議開啟檔案
-            const protocols = [
-                'ms-word:ofe|u|C:\\Users\\solidityDeveloper\\Documents\\2.docx',
-                'C:\\Users\\solidityDeveloper\\Documents\\2.docx',
-                'shell:C:\\Users\\solidityDeveloper\\Documents\\2.docx',
-                'file:///C:/Users/solidityDeveloper/Documents/2.docx'
+        function openWithPowerShell() {
+            // 嘗試多種 PowerShell 開啟方式
+            const commands = [
+                'ms-powershell:Start-Process%20%22C:\\Users\\solidityDeveloper\\Documents\\2.docx%22',
+                'ms-powershell:Invoke-Item%20%22C:\\Users\\solidityDeveloper\\Documents\\2.docx%22',
+                'powershell://Start-Process "C:\\Users\\solidityDeveloper\\Documents\\2.docx"'
             ];
 
-            let success = false;
+            let attempted = 0;
             
-            protocols.forEach((protocol, index) => {
+            commands.forEach((command, index) => {
                 setTimeout(() => {
                     try {
-                        if (index === 0) {
-                            // Microsoft Word 專用協議
-                            window.location.href = protocol;
-                        } else if (index === 1) {
-                            // 直接路徑
-                            window.open(protocol, '_self');
-                        } else if (index === 2) {
-                            // Shell 執行
-                            window.location.href = protocol;
-                        } else {
-                            // 檔案協議
-                            window.open(protocol, '_blank');
-                        }
-                        success = true;
+                        window.location.href = command;
+                        attempted++;
+                        console.log(`PowerShell method ${index + 1} attempted:`, command);
                     } catch (error) {
-                        console.log(`Method ${index + 1} failed:`, error);
+                        console.log(`PowerShell method ${index + 1} failed:`, error);
                     }
-                }, index * 500);
+                }, index * 800);
             });
 
-            // 如果所有方法都失敗，顯示手動指引
+            // 顯示手動指引
             setTimeout(() => {
-                if (!success) {
-                    alert('自動開啟失敗。請手動執行以下步驟：\n\n1. 按 Win + R\n2. 輸入: C:\\Users\\solidityDeveloper\\Documents\\2.docx\n3. 按 Enter');
+                if (attempted > 0) {
+                    showNotification('已嘗試使用 PowerShell 開啟檔案。如果沒有開啟，請手動執行下方的 PowerShell 指令。');
+                } else {
+                    showNotification('自動開啟失敗。請手動複製並執行 PowerShell 指令，或按 Win + R 輸入 "powershell" 開啟終端。');
                 }
             }, 3000);
         }
 
-        // 為所有方法連結添加點擊事件
-        document.addEventListener('DOMContentLoaded', function() {
-            const methodLinks = document.querySelectorAll('.method-link');
-            methodLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    // 讓瀏覽器嘗試處理這些協議
-                    console.log('Trying protocol:', this.href);
-                });
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('指令已複製到剪貼簿！');
+            }).catch(err => {
+                console.error('複製失敗:', err);
+                // 備用方法
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showNotification('指令已複製到剪貼簿！');
             });
-        });
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #28a745;
+                color: white;
+                padding: 15px 20px;
+                border-radius: 5px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                z-index: 1000;
+                max-width: 300px;
+                font-size: 14px;
+                line-height: 1.4;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 5000);
+        }
     </script>
 </body>
 </html>
