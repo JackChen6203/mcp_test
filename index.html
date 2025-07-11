@@ -4,35 +4,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>檔案開啟器</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+            min-width: 400px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .file-link {
+            display: inline-block;
+            padding: 15px 25px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin: 10px 0;
+        }
+
+        .file-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+        }
+
+        .file-path {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+            font-family: 'Courier New', monospace;
+            color: #495057;
+            margin: 20px 0;
+            word-break: break-all;
+        }
+
+        .instruction {
+            color: #666;
+            font-size: 14px;
+            margin-top: 20px;
+            line-height: 1.5;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>檔案開啟器</h1>
-        <div class="file-opener">
-            <input type="file" id="fileInput" multiple accept="*/*">
-            <label for="fileInput" class="opener-label">
-                <div class="opener-icon">📂</div>
-                <div class="opener-text">點擊開啟檔案</div>
-                <div class="opener-hint">支援多種檔案格式</div>
-            </label>
+        
+        <div class="file-path">
+            C:\Users\solidityDeveloper\Documents\2.docx
         </div>
         
-        <div class="file-list" id="fileList">
-            <h3>已開啟的檔案</h3>
-            <div id="openedFiles"></div>
-        </div>
+        <a href="file:///C:/Users/solidityDeveloper/Documents/2.docx" class="file-link" onclick="openLocalFile()">
+            開啟 Word 檔案
+        </a>
         
-        <div class="file-viewer" id="fileViewer">
-            <h3>檔案內容</h3>
-            <div id="fileContent"></div>
-        </div>
-        
-        <div class="actions">
-            <button id="clearBtn" class="btn btn-secondary">清除所有</button>
+        <div class="instruction">
+            點擊上方按鈕開啟本機 Word 檔案<br>
+            如果無法開啟，請確認檔案路徑是否正確
         </div>
     </div>
-    
-    <script src="script.js"></script>
+
+    <script>
+        function openLocalFile() {
+            const filePath = 'C:\\Users\\solidityDeveloper\\Documents\\2.docx';
+            
+            // 嘗試多種方法開啟檔案
+            try {
+                // 方法 1: 使用 file:// 協議
+                window.open('file:///C:/Users/solidityDeveloper/Documents/2.docx', '_blank');
+            } catch (error) {
+                console.log('File protocol method failed:', error);
+                
+                try {
+                    // 方法 2: 創建下載連結
+                    const link = document.createElement('a');
+                    link.href = 'file:///C:/Users/solidityDeveloper/Documents/2.docx';
+                    link.click();
+                } catch (error2) {
+                    console.log('Download link method failed:', error2);
+                    
+                    // 方法 3: 顯示提示訊息
+                    alert('請手動開啟檔案：C:\\Users\\solidityDeveloper\\Documents\\2.docx');
+                }
+            }
+        }
+
+        // 阻止默認的連結行為，使用自定義函數
+        document.querySelector('.file-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            openLocalFile();
+        });
+    </script>
 </body>
 </html>
