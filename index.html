@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>檔案開啟器</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>檔案開啟器</h1>
+        <div class="file-opener">
+            <input type="file" id="fileInput" multiple accept="*/*">
+            <label for="fileInput" class="opener-label">
+                <div class="opener-icon">📂</div>
+                <div class="opener-text">點擊開啟檔案</div>
+                <div class="opener-hint">支援多種檔案格式</div>
+            </label>
+        </div>
+        
+        <div class="file-list" id="fileList">
+            <h3>已開啟的檔案</h3>
+            <div id="openedFiles"></div>
+        </div>
+        
+        <div class="file-viewer" id="fileViewer">
+            <h3>檔案內容</h3>
+            <div id="fileContent"></div>
+        </div>
+        
+        <div class="actions">
+            <button id="clearBtn" class="btn btn-secondary">清除所有</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+h1 {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    text-align: center;
+    padding: 24px;
+    font-size: 28px;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.file-opener {
+    margin: 30px;
+    padding: 40px;
+    border: 3px dashed #ddd;
+    border-radius: 12px;
+    text-align: center;
+    background: #fafafa;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.file-opener:hover {
+    border-color: #667eea;
+    background: #f0f4ff;
+    transform: translateY(-2px);
+}
+
+.file-opener input[type="file"] {
+    display: none;
+}
+
+.opener-label {
+    cursor: pointer;
+    display: block;
+}
+
+.opener-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.opener-text {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.opener-hint {
+    font-size: 14px;
+    color: #666;
+}
+
+.file-list, .file-viewer {
+    margin: 30px;
+    padding: 24px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.file-list h3, .file-viewer h3 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 600;
+    border-bottom: 2px solid #667eea;
+    padding-bottom: 10px;
+}
+
+.file-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    margin-bottom: 12px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.file-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.file-details {
+    flex: 1;
+}
+
+.file-name {
+    font-weight: 600;
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.file-meta {
+    font-size: 12px;
+    color: #666;
+}
+
+.file-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+    transform: translateY(-2px);
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 12px;
+}
+
+.view-btn {
+    background: #28a745;
+    color: white;
+}
+
+.view-btn:hover {
+    background: #218838;
+}
+
+.remove-btn {
+    background: #dc3545;
+    color: white;
+}
+
+.remove-btn:hover {
+    background: #c82333;
+}
+
+.actions {
+    margin: 30px;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.content-header h4 {
+    color: #333;
+    margin-bottom: 16px;
+    padding: 12px;
+    background: #e9ecef;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.text-content {
+    background: #fff;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+    overflow: auto;
+}
+
+.text-content pre {
+    margin: 0;
+    padding: 20px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.text-content code {
+    font-family: 'Courier New', Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #333;
+}
+
+.image-content {
+    text-align: center;
+    padding: 20px;
+    background: #fff;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+}
+
+.binary-content {
+    padding: 20px;
+    background: #fff;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+    text-align: center;
+    color: #666;
+}
+
+.binary-content p {
+    margin-bottom: 8px;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .container {
+        margin: 10px;
+        border-radius: 8px;
+    }
+    
+    .file-opener {
+        margin: 20px;
+        padding: 30px 20px;
+    }
+    
+    .file-list, .file-viewer {
+        margin: 20px;
+        padding: 16px;
+    }
+    
+    .file-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .file-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+    
+    h1 {
+        font-size: 24px;
+        padding: 20px;
+    }
+}
+
+/* 拖拽效果 */
+.file-opener.drag-over {
+    border-color: #667eea;
+    background: #e3f2fd;
+}
+
+/* 滾動條樣式 */
+.text-content::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.text-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.text-content::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.text-content::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
